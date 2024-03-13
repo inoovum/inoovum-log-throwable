@@ -1,0 +1,16 @@
+Neos:
+  Flow:
+    log:
+      throwables:
+        storageClass: Inoovum\Log\Throwable\Log\Throwable
+
+Inoovum:
+  Log:
+    Throwable:
+      options:
+        writeToFile: false
+      classes: [ ]
+#        -
+#          class: 'Inoovum\Log\Throwable\Log\SlackMessage'
+#          options:
+#            webhookUri: 'https://hooks.slack.com/services/T1TCCUN3X/A17PWTYX3GZ/xs83nHlpZafgUieYzsKiUcfa'

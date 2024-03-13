@@ -1,0 +1,18 @@
+{
+    "description": "inoovum® throwable log package",
+    "type": "neos-package",
+    "name": "inoovum/log-throwable",
+    "require": {
+        "neos/flow": "^7.0 || ^8.0 || ^8.1 || ^8.2 || ^8.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Inoovum\\Log\\Throwable\\": "Classes/"
+        }
+    },
+    "extra": {
+        "neos": {
+            "package-key": "Inoovum.Log.Throwable"
+        }
+    }
+}
