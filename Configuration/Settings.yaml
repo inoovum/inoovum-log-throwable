@@ -8,7 +8,7 @@ Inoovum:
   Log:
     Throwable:
       options:
-        writeToFile: false
+        writeToFile: true
       classes: [ ]
 #        -
 #          class: 'Inoovum\Log\Throwable\Log\SlackMessage'
