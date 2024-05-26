@@ -56,17 +56,20 @@ final class Throwable extends FileStorage
         ]) ? $throwable->getReferenceCode() : $this->generateUniqueReferenceCode());
         $throwableDumpPathAndFilename = Files::concatenatePaths([$this->storagePath, $referenceCode . '.txt']);
 
-        $bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
-        /** @var ConfigurationManager $configurationManager */
-        $configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
-        $serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Inoovum.Log.Throwable');
+        $staticObjectManager = Bootstrap::$staticObjectManager;
+        if($staticObjectManager !== null) {
+            $bootstrap = $staticObjectManager->get(Bootstrap::class);
+            /** @var ConfigurationManager $configurationManager */
+            $configurationManager = $bootstrap->getEarlyInstance(ConfigurationManager::class);
+            $serviceContext = $configurationManager->getConfiguration(ConfigurationManager::CONFIGURATION_TYPE_SETTINGS, 'Inoovum.Log.Throwable');
 
-        if($serviceContext['options']['writeToFile'] === true) {
-            file_put_contents($throwableDumpPathAndFilename, $this->renderErrorInfo($throwable, $additionalData));
+            if($serviceContext['options']['writeToFile'] === true) {
+                file_put_contents($throwableDumpPathAndFilename, $this->renderErrorInfo($throwable, $additionalData));
+            }
+            $this->throwItIntoTheClasses($this->renderErrorInfo($throwable, $additionalData), $serviceContext['classes']);
         }
-        $this->throwItIntoTheClasses($this->renderErrorInfo($throwable, $additionalData), $serviceContext['classes']);
-        $message .= ' - See also: ' . basename($throwableDumpPathAndFilename);
 
+        $message .= ' - See also: ' . basename($throwableDumpPathAndFilename);
         return $message;
     }
 

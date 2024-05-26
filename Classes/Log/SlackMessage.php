@@ -2,15 +2,17 @@
 namespace Inoovum\Log\Throwable\Log;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use Neos\Flow\Annotations as Flow;
 
-class SlackMessage
+class SlackMessage implements ThrowableInterface
 {
 
     /**
      * @param string $errorInfo
      * @param array $options
      * @return void
+     * @throws GuzzleException
      */
     public function throwError(string $errorInfo, array $options): void
     {
