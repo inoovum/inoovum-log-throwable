@@ -47,8 +47,6 @@ final class Throwable extends FileStorage
             return sprintf('Could not write exception backtrace into %s because the directory could not be created or is not writable.', $this->storagePath);
         }
 
-        $this->cleanupThrowableDumps();
-
         // FIXME: getReferenceCode should probably become an interface.
         $referenceCode = (is_callable([
             $throwable,
