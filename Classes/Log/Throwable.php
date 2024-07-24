@@ -64,7 +64,7 @@ final class Throwable extends FileStorage
             if($serviceContext['options']['writeToFile'] === true) {
                 file_put_contents($throwableDumpPathAndFilename, $this->renderErrorInfo($throwable, $additionalData));
             }
-            $this->throwItIntoTheClasses($this->renderErrorInfo($throwable, $additionalData), $serviceContext['classes']);
+            $this->throwItIntoTheClasses($this->renderErrorInfo($throwable, $additionalData), $serviceContext['classes'], $referenceCode);
         }
 
         $message .= ' - See also: ' . basename($throwableDumpPathAndFilename);
@@ -74,9 +74,10 @@ final class Throwable extends FileStorage
     /**
      * @param string $errorInfo
      * @param array $classes
+     * @param string $referenceCode
      * @return void
      */
-    public function throwItIntoTheClasses(string $errorInfo, array $classes): void
+    public function throwItIntoTheClasses(string $errorInfo, array $classes, string $referenceCode): void
     {
         $bootstrap = Bootstrap::$staticObjectManager->get(Bootstrap::class);
         /** @var ObjectManagerInterface $objectManager */
@@ -84,7 +85,7 @@ final class Throwable extends FileStorage
 
         foreach ($classes as $throwableClass) {
             $targetClass = $objectManager->get($throwableClass['class']);
-            $targetClass->throwError($errorInfo, array_key_exists('options', $throwableClass) ? $throwableClass['options'] : []);
+            $targetClass->throwError($errorInfo, (array_key_exists('options', $throwableClass) ? array_merge_recursive($throwableClass['options'], ['referenceCode' => $referenceCode]) : []));
         }
     }
 
